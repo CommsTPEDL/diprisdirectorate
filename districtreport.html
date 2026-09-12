@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TEDL DIPRIS | District Intelligence & Public Relations Information System</title>
+  <style>
+    :root {
+      --tedl-navy: #0b2545;
+      --tedl-blue: #134074;
+      --tedl-accent: #0077b6;
+      --tedl-light-blue: #e8f4f8;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-600: #475569;
+      --slate-800: #1e293b;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --warning: #d97706;
+      --warning-bg: #fffbeb;
+      --success: #16a34a;
+      --success-bg: #f0fdf4;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
+    }
+
+    body {
+      background-color: var(--slate-100);
+      color: var(--slate-800);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* HEADER SECTION */
+    .portal-header {
+      background: linear-gradient(135deg, var(--tedl-navy) 0%, var(--tedl-blue) 100%);
+      color: #ffffff;
+      padding: 24px 32px;
+      box-shadow: var(--shadow-md);
+      border-bottom: 4px solid var(--tedl-accent);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo-badge {
+      width: 48px;
+      height: 48px;
+      background: #ffffff;
+      color: var(--tedl-navy);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: -1px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-title h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--slate-300);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #4ade80;
+      border-radius: 50%;
+      margin-right: 6px;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    /* EMERGENCY BANNER */
+    .emergency-banner {
+      display: none;
+      background-color: var(--danger-bg);
+      border-bottom: 2px solid var(--danger);
+      color: #991b1b;
+      padding: 12px 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      animation: pulseAlert 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { background-color: var(--danger-bg); }
+      50% { background-color: #fee2e2; }
+    }
+
+    /* MAIN CONTAINER */
+    .portal-main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 24px auto;
+      padding: 0 16px;
+      flex: 1;
+    }
+
+    /* METADATA BAR CARD */
+    .metadata-card {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metadata-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--tedl-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .grid-4, .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--slate-800);
+    }
+
+    .label-required::after {
+      content: " *";
+      color: var(--danger);
+    }
+
+    .hint-text {
+      font-size: 0.72rem;
+      color: var(--slate-600);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--slate-300);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--slate-800);
+      background-color: #ffffff;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--tedl-accent);
+      box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* RAG STATUS BAR */
+    .rag-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .rag-item {
+      border: 1px solid var(--slate-300);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #ffffff;
+      transition: all 0.15s ease;
+    }
+
+    .rag-item input { display: none; }
+    .rag-item.rag-green:has(input:checked) { border-color: var(--success); background-color: var(--success-bg); color: var(--success); }
+    .rag-item.rag-amber:has(input:checked) { border-color: var(--warning); background-color: var(--warning-bg); color: var(--warning); }
+    .rag-item.rag-red:has(input:checked) { border-color: var(--danger); background-color: var(--danger-bg); color: var(--danger); }
+
+    /* DEPARTMENTAL TABS NAVIGATION */
+    .tabs-wrapper {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .tabs-header {
+      display: flex;
+      background: var(--slate-50);
+      border-bottom: 1px solid var(--slate-200);
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 14px 12px;
+      border: none;
+      background: transparent;
+      color: var(--slate-600);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn .dept-number {
+      font-size: 0.68rem;
+      background: var(--slate-200);
+      color: var(--slate-800);
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .tab-btn:hover {
+      color: var(--tedl-navy);
+      background: #ffffff;
+    }
+
+    .tab-btn.active {
+      color: var(--tedl-accent);
+      background: #ffffff;
+      border-bottom: 3px solid var(--tedl-accent);
+    }
+
+    .tab-btn.active .dept-number {
+      background: var(--tedl-accent);
+      color: #ffffff;
+    }
+
+    /* TAB CONTENT PANES */
+    .tab-pane {
+      display: none;
+      padding: 28px 24px;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tab-pane-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--tedl-navy);
+      margin-bottom: 4px;
+    }
+
+    .tab-pane-desc {
+      font-size: 0.82rem;
+      color: var(--slate-600);
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    /* FORM ELEMENTS & CONDITIONAL FIELDS */
+    .checkbox-group, .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .choice-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .choice-label input[type="radio"],
+    .choice-label input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--tedl-accent);
+      width: 15px;
+      height: 15px;
+    }
+
+    .conditional-field {
+      display: none;
+      margin: 14px 0;
+      padding: 16px;
+      background: var(--slate-50);
+      border-left: 4px solid var(--tedl-accent);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .conditional-field.alert-danger {
+      background: var(--danger-bg);
+      border-left-color: var(--danger);
+    }
+
+    /* TAB STEPPER CONTROLS */
+    .tab-navigation-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid var(--slate-200);
+    }
+
+    .btn {
+      padding: 9px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid transparent;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      border-color: var(--slate-300);
+      color: var(--slate-800);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--slate-50);
+      border-color: var(--slate-400);
+    }
+
+    .btn-primary {
+      background: var(--tedl-navy);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--tedl-blue);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* RISK REGISTER & SIGN-OFF CONTAINER */
+    .executive-closure-card {
+      margin-top: 24px;
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .closure-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--tedl-navy);
+      margin-bottom: 16px;
+    }
+
+    /* FOOTER SECTION */
+    .portal-footer {
+      background: var(--tedl-navy);
+      color: #ffffff;
+      padding: 32px 24px;
+      margin-top: auto;
+      font-size: 0.8rem;
+      border-top: 3px solid var(--tedl-accent);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--slate-300);
+      text-decoration: none;
+      margin-left: 16px;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* MODAL CONFIRMATION */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 37, 69, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: var(--radius);
+      max-width: 650px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-box h3 {
+      color: var(--tedl-navy);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .payload-pre {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      max-height: 240px;
+      overflow-y: auto;
+      margin-top: 14px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER SECTION -->
+  <header class="portal-header">
+    <div class="header-top">
+      <div class="brand-group">
+        <div class="brand-logo-badge">TEDL</div>
+        <div class="brand-title">
+          <h1>TRANSPOWER ELECTRICITY DISTRIBUTION LIMITED</h1>
+          <p>District Intelligence & Public Relations Information System (DIPRIS) • Imo State</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <div class="meta-pill"><span class="live-dot"></span>Live Weekly Cycle: Friday 18:00 WAT Deadline</div>
+        <div class="meta-pill" id="clockDisplay">WAT</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- EMERGENCY ALERT BANNER -->
+  <div id="emergencyBanner" class="emergency-banner">
+    ⚠️ <strong>EXECUTIVE RED ALERT:</strong> Critical risk, electrocution, or major unrest flagged. Automated priority notification prepared for MD/CEO & ExCo.
+  </div>
+
+  <!-- MAIN APPLICATION -->
+  <main class="portal-main">
+    <form id="dirisMasterForm" novalidate>
+
+      <!-- DISTRICT METADATA & PERSISTENT CONTEXT -->
+      <div class="metadata-card">
+        <div class="metadata-card-title">
+          <span>🏛️ District Identity & High-Level Sentiment Indicator</span>
+        </div>
+        <div class="grid-4">
+          <div class="form-group">
+            <label class="label-required" for="districtName">Operating Business District</label>
+            <select id="districtName" name="districtName" required>
+              <option value="">-- Choose District --</option>
+              <option value="Owerri">Owerri District</option>
+              <option value="New Owerri">New Owerri District</option>
+              <option value="Akwakuma">Akwakuma District</option>
+              <option value="Orlu">Orlu District</option>
+              <option value="Mbaise">Mbaise District</option>
+              <option value="Okigwe">Okigwe District</option>
+              <option value="Ihiagwa">Ihiagwa District</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="label-required" for="weekEnding">Reporting Week Ending</label>
+            <input type="date" id="weekEnding" name="weekEnding" required />
+          </div>
+
+          <div class="form-group">
+            <label class="label-required" for="leadOfficer">Name and Staff ID of Lead Officer</label>
+            <input type="text" id="leadOfficer" name="leadOfficer" placeholder="e.g., Engr. Emeka Nwachukwu" required />
+          </div>
+
+          <div class="form-group">
+          <label class="label-required" for="designationRole">Designation / Role</label>
+          <select id="designationRole" name="designationRole" required>
+            <option value="">-- Select Designation --</option>
+            <option value="District Business Manager (DBM)">District Business Manager (DBM)</option>
+            <option value="Operations Maintenance Superintendent">Operations Maintenance Superintendent</option>
+            <option value="District Commercial Manager">District Commercial Manager</option>
+            <!-- <option value="Customer Service Supervisor">Customer Service Supervisor</option> -->
+          </select>
+        </div>
+      </div>
+
+          <div class="form-group">
+            <label class="label-required">District Sentiment (RAG)</label>
+            <div class="rag-options">
+              <label class="rag-item rag-green">
+                <input type="radio" name="ragStatus" value="GREEN" required />
+                <span>🟢 Green</span>
+              </label>
+              <label class="rag-item rag-amber">
+                <input type="radio" name="ragStatus" value="AMBER" />
+                <span>🟡 Amber</span>
+              </label>
+              <label class="rag-item rag-red">
+                <input type="radio" name="ragStatus" value="RED" />
+                <span>🔴 Red</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEPARTMENTAL TABS CONTAINER (8 DEPARTMENTS) -->
+      <div class="tabs-wrapper">
+        <!-- Tab Headers -->
+        <nav class="tabs-header" role="tablist">
+          <button type="button" class="tab-btn active" data-tab="tab-technical">
+            <span class="dept-number">Dept 1</span>
+            <span>Technical</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-commercial">
+            <span class="dept-number">Dept 2</span>
+            <span>Commercial</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-customer">
+            <span class="dept-number">Dept 3</span>
+            <span>Customer Service</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-billing">
+            <span class="dept-number">Dept 4</span>
+            <span>Billing</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-metering">
+            <span class="dept-number">Dept 5</span>
+            <span>Metering</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-safety">
+            <span class="dept-number">Dept 6</span>
+            <span>Safety (HSE)</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-security">
+            <span class="dept-number">Dept 7</span>
+            <span>Security</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tab-regulatory">
+            <span class="dept-number">Dept 8</span>
+            <span>Regulatory</span>
+          </button>
+        </nav>
+
+        <!-- ==================== TAB 1: TECHNICAL ==================== -->
+        <div class="tab-pane active" id="tab-technical">
+          <h2 class="tab-pane-title">1. Technical & Network Operations Feed</h2>
+          <p class="tab-pane-desc">Capture feeder availability, trippings, failed distribution transformers, and planned work for media release.</p>
+          
+          <label class="label-required">Average Daily Supply Delivered (Hours/Day: 0.0 - 24.0)</label>
+          <div class="grid-4" style="margin-bottom: 16px;">
+            <div class="form-group">
+              <label for="bandA">Band A (≥20h)</label>
+              <input type="number" id="bandA" name="bandA" min="0" max="24" step="0.1" placeholder="0.0 - 24.0" required />
+            </div>
+            <div class="form-group">
+              <label for="bandB">Band B (≥16h)</label>
+              <input type="number" id="bandB" name="bandB" min="0" max="24" step="0.1" placeholder="0.0 - 24.0" required />
+            </div>
+            <div class="form-group">
+              <label for="bandC">Band C (≥12h)</label>
+              <input type="number" id="bandC" name="bandC" min="0" max="24" step="0.1" placeholder="0.0 - 24.0" required />
+            </div>
+            <div class="form-group">
+              <label for="bandD">Band D/E (&lt;12h)</label>
+              <input type="number" id="bandD" name="bandD" min="0" max="24" step="0.1" placeholder="0.0 - 24.0" required />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="label-required" for="feederTrippings">Total Feeder Trippings (33kV & 11kV)</label>
+              <input type="number" id="feederTrippings" name="feederTrippings" min="0" placeholder="Count this week" required />
+            </div>
+            <div class="form-group">
+              <label class="label-required" for="burntDTs">Burnt / Failed Distribution Transformers (DTs)</label>
+              <input type="number" id="burntDTs" name="burntDTs" min="0" value="0" required />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="label-required">Primary Tripping Root Causes (Select at least 1)</label>
+            <div class="checkbox-group">
+              <label class="choice-label"><input type="checkbox" name="trippingCauses" value="Vegetation / Tree contact" /> Vegetation / Tree branch contact along corridor</label>
+              <label class="choice-label"><input type="checkbox" name="trippingCauses" value="Blown J&P / Drop-out fuses" /> Blown J&P / Drop-out fuses</label>
+              <label class="choice-label"><input type="checkbox" name="trippingCauses" value="Conductor snap / Broken pole" /> Snapped conductors or broken poles</label>
+              <label class="choice-label"><input type="checkbox" name="trippingCauses" value="TCN Grid load shedding" /> TCN grid frequency constraint / Load shedding</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Burnt DTs > 0 -->
+          <div id="failedDTContainer" class="conditional-field">
+            <label class="label-required" for="failedDTDetails">Failed DT Locations & Affected Communities</label>
+            <textarea id="failedDTDetails" name="failedDTDetails" placeholder="Specify ratings (e.g. 500kVA DT at Nekede Road) and outage duration..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="plannedTechnicalNotice">Upcoming Planned Maintenance (Requiring Radio/PR Notice)</label>
+            <textarea id="plannedTechnicalNotice" name="plannedTechnicalNotice" placeholder="Feeder name, maintenance scope, date, and outage window..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <div></div>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-commercial">Next: Commercial &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 2: COMMERCIAL ==================== -->
+        <div class="tab-pane" id="tab-commercial">
+          <h2 class="tab-pane-title">2. Commercial Operations Feed</h2>
+          <p class="tab-pane-desc">Log collection resistance, mass disconnection friction, energy theft hotspots, and MD customer disputes.</p>
+
+          <div class="form-group">
+            <label class="label-required">Mass Disconnection Resistance Encountered This Week?</label>
+            <div class="radio-group" style="flex-direction: row; gap: 20px;">
+              <label class="choice-label"><input type="radio" name="disconnectionResistance" value="No" checked /> No</label>
+              <label class="choice-label"><input type="radio" name="disconnectionResistance" value="Yes" /> Yes</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Resistance = Yes -->
+          <div id="resistanceContainer" class="conditional-field">
+            <label class="label-required" for="resistanceDetails">Resistance Hotspot Details & Demands</label>
+            <textarea id="resistanceDetails" name="resistanceDetails" placeholder="Specify village, street, youth leaders involved, and specific grievances..."></textarea>
+          </div>
+
+          <div class="grid-2" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="label-required" for="theftBypassCount">Energy Theft / Bypass Discoveries</label>
+              <input type="number" id="theftBypassCount" name="theftBypassCount" min="0" placeholder="Number of verified illegal connections" required />
+            </div>
+            <div class="form-group">
+              <label for="theftCorridorName">High-Theft Feeder Corridors</label>
+              <input type="text" id="theftCorridorName" name="theftCorridorName" placeholder="e.g., Relief Market Line, Ikenegbu layout" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="maxDemandDisputes">Maximum Demand (MD) Customer Disputes</label>
+            <textarea id="maxDemandDisputes" name="maxDemandDisputes" placeholder="List industrial/commercial accounts contesting bills or threatening grid exit..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-technical">&larr; Previous</button>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-customer">Next: Customer Service &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 3: CUSTOMER SERVICE ==================== -->
+        <div class="tab-pane" id="tab-customer">
+          <h2 class="tab-pane-title">3. Customer Service & Frontline Operations Feed</h2>
+          <p class="tab-pane-desc">Track complaint volume, resolution bottlenecks, and frontline employee security.</p>
+
+          <div class="grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div class="form-group">
+              <label class="label-required" for="complaintsLogged">Total Complaints Logged</label>
+              <input type="number" id="complaintsLogged" name="complaintsLogged" min="0" placeholder="Count" required />
+            </div>
+            <div class="form-group">
+              <label class="label-required" for="complaintsResolved">Resolved Within SLA</label>
+              <input type="number" id="complaintsResolved" name="complaintsResolved" min="0" placeholder="Must be ≤ Logged" required />
+            </div>
+            <div class="form-group">
+              <label class="label-required" for="complaintsPending72h">Pending &gt; 72 Hours</label>
+              <input type="number" id="complaintsPending72h" name="complaintsPending72h" min="0" value="0" required />
+            </div>
+          </div>
+
+          <!-- Conditional on Pending > 0 -->
+          <div id="backlogReasonContainer" class="conditional-field">
+            <label class="label-required" for="backlogReason">Primary Bottleneck for Complaints &gt; 72h</label>
+            <textarea id="backlogReason" name="backlogReason" placeholder="State operational bottleneck (e.g. lack of replacement fuses, vehicle downtime)..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="label-required">Top 3 Complaint Drivers (Select EXACTLY 3)</label>
+            <div class="hint-text" id="complaintDriverCount">Selected: 0 of 3</div>
+            <div class="checkbox-group" id="complaintDriversGroup">
+              <label class="choice-label"><input type="checkbox" name="complaintDriver" value="Estimated billing overcharge" /> Estimated billing overcharge / Band dispute</label>
+              <label class="choice-label"><input type="checkbox" name="complaintDriver" value="Slow fault restoration" /> Slow fault restoration / Technical delay</label>
+              <label class="choice-label"><input type="checkbox" name="complaintDriver" value="Levy demands for repair" /> Unauthorized monetary levies for transformer repair</label>
+              <label class="choice-label"><input type="checkbox" name="complaintDriver" value="Frequent blown fuse / low voltage" /> Blown fuse / Low voltage / Dropped phase</label>
+              <label class="choice-label"><input type="checkbox" name="complaintDriver" value="Token vending delay" /> Prepaid token generation / KCT loading delay</label>
+              <label class="choice-label"><input type="checkbox" name="complaintDriver" value="Staff misconduct" /> Staff conduct / Extortion allegations</label>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="label-required">Frontline Staff Harassment / Assault Recorded?</label>
+            <div class="radio-group" style="flex-direction: row; gap: 20px;">
+              <label class="choice-label"><input type="radio" name="staffAssault" value="No" checked /> No</label>
+              <label class="choice-label"><input type="radio" name="staffAssault" value="Yes" /> Yes</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Assault = Yes -->
+          <div id="assaultDetailsContainer" class="conditional-field alert-danger">
+            <label class="label-required" for="assaultDetails">Assault Incident Details & Police Station Handling Case</label>
+            <textarea id="assaultDetails" name="assaultDetails" placeholder="Staff names, injuries, location, and division where police case is filed..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-commercial">&larr; Previous</button>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-billing">Next: Billing &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 4: BILLING ==================== -->
+        <div class="tab-pane" id="tab-billing">
+          <h2 class="tab-pane-title">4. Billing & Tariff Compliance Feed</h2>
+          <p class="tab-pane-desc">Identify billing dissatisfaction trends to trigger educational PR and prevent regulatory capping sanctions.</p>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="label-required" for="contestedBills">Contested Estimated Bills Logged</label>
+              <input type="number" id="contestedBills" name="contestedBills" min="0" placeholder="Count of formal billing disputes" required />
+            </div>
+            <div class="form-group">
+              <label class="label-required" for="billDispatchStatus">Bill Distribution Execution Status</label>
+              <select id="billDispatchStatus" name="billDispatchStatus" required>
+                <option value="100% Completed">100% Completed across routes</option>
+                <option value="Partial Ongoing">Partial - Distribution ongoing</option>
+                <option value="Delayed Logistics">Delayed - Printing/Delivery challenge</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Conditional on Contested Bills > 10 -->
+          <div id="billingAgitationContainer" class="conditional-field">
+            <label class="label-required" for="billingAgitationAreas">Primary Billing Pushback Hotspots</label>
+            <textarea id="billingAgitationAreas" name="billingAgitationAreas" placeholder="Specific feeders or streets agitating against current billing cycle..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="label-required">Allegations of NERC Capping Exceedance?</label>
+            <div class="radio-group" style="flex-direction: row; gap: 20px;">
+              <label class="choice-label"><input type="radio" name="cappingBreach" value="No" checked /> No</label>
+              <label class="choice-label"><input type="radio" name="cappingBreach" value="Yes" /> Yes</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Capping = Yes -->
+          <div id="cappingDetailsContainer" class="conditional-field">
+            <label class="label-required" for="cappingDetails">Capping Exceedance Context</label>
+            <textarea id="cappingDetails" name="cappingDetails" placeholder="Feeder name, tariff band, and estimated kWh over-allocation..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-customer">&larr; Previous</button>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-metering">Next: Metering &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 5: METERING ==================== -->
+        <div class="tab-pane" id="tab-metering">
+          <h2 class="tab-pane-title">5. Metering Operations Feed</h2>
+          <p class="tab-pane-desc">Track MAP deployment velocity, vending/token issues, and customer acceptance hurdles.</p>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="label-required" for="metersInstalledCount">Meters Installed This Week</label>
+              <input type="number" id="metersInstalledCount" name="metersInstalledCount" min="0" placeholder="Count of single/3-phase units" required />
+            </div>
+            <div class="form-group">
+              <label class="label-required" for="meterBacklogCount">Paid Meter Backlog (&gt;10 Working Days)</label>
+              <input type="number" id="meterBacklogCount" name="meterBacklogCount" min="0" placeholder="Paid but uninstalled units" required />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="label-required">Metering Operational Friction Encountered</label>
+            <div class="checkbox-group">
+              <label class="choice-label"><input type="checkbox" name="meterFriction" value="Token generation failure" /> STS Token generation / Key-change token loading failures</label>
+              <label class="choice-label"><input type="checkbox" name="meterFriction" value="Debt migration resistance" /> Customer resistance against historical debt migration onto new meter</label>
+              <label class="choice-label"><input type="checkbox" name="meterFriction" value="Vendor stockout" /> MAP vendor hardware stock shortage</label>
+              <label class="choice-label"><input type="checkbox" name="meterFriction" value="Customer rejection" /> Customer refusal to accept meter installation</label>
+              <label class="choice-label"><input type="checkbox" name="meterFriction" value="None" id="meterFrictionNone" /> None - Smooth operations</label>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="meteringNarrative">Specific Metering Disputes or Technical Issues</label>
+            <textarea id="meteringNarrative" name="meteringNarrative" placeholder="Additional details on vendor delays or localized meter rejections..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-billing">&larr; Previous</button>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-safety">Next: Safety (HSE) &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 6: SAFETY ==================== -->
+        <div class="tab-pane" id="tab-safety">
+          <h2 class="tab-pane-title">6. Health, Safety & Environment (HSE) Feed</h2>
+          <p class="tab-pane-desc">Identify hazardous infrastructure, RoW violations, and electrocution incidents requiring crisis management.</p>
+
+          <div class="form-group">
+            <label class="label-required">Public Electrical Hazards Identified</label>
+            <div class="checkbox-group">
+              <label class="choice-label"><input type="checkbox" name="hseHazard" value="Sagging 33kV/11kV lines" /> Sagging 33kV/11kV conductors across roads or public spaces</label>
+              <label class="choice-label"><input type="checkbox" name="hseHazard" value="Unfenced transformer" /> Unfenced / Collapsed perimeter around distribution substation</label>
+              <label class="choice-label"><input type="checkbox" name="hseHazard" value="Structures under lines" /> Illegal markets / Building structures directly under high-tension lines</label>
+              <label class="choice-label"><input type="checkbox" name="hseHazard" value="Rotten/leaning poles" /> Rotten, leaning, or cracked poles</label>
+              <label class="choice-label"><input type="checkbox" name="hseHazard" value="None" id="hseHazardNone" /> None observed</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Hazards != None -->
+          <div id="hazardHotspotContainer" class="conditional-field">
+            <label class="label-required" for="hazardHotspots">Hazard Locations Requiring Urgent Technical Rectification</label>
+            <textarea id="hazardHotspots" name="hazardHotspots" placeholder="Specific street names, markets, or landmarks where hazards exist..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="label-required">Electrical Accidents / Electrocutions Recorded This Week?</label>
+            <div class="radio-group" style="flex-direction: row; gap: 20px;">
+              <label class="choice-label"><input type="radio" name="accidentOccurred" value="No" checked /> No</label>
+              <label class="choice-label"><input type="radio" name="accidentOccurred" value="Yes" /> Yes</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Accident = Yes -->
+          <div id="accidentDetailsContainer" class="conditional-field alert-danger">
+            <label class="label-required" for="accidentDetails">Accident Narrative: Victims, Location, Cause, and Current Status</label>
+            <textarea id="accidentDetails" name="accidentDetails" placeholder="Detailed chronology of casualty, hospital admitted, technical cause, and community response..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-metering">&larr; Previous</button>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-security">Next: Security &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 7: SECURITY ==================== -->
+        <div class="tab-pane" id="tab-security">
+          <h2 class="tab-pane-title">7. Security Operations Feed</h2>
+          <p class="tab-pane-desc">Capture network asset vandalism, suspect apprehensions, and formal legal threats.</p>
+
+          <div class="form-group">
+            <label class="label-required">Infrastructure Vandalism Incidents Recorded This Week?</label>
+            <div class="radio-group" style="flex-direction: row; gap: 20px;">
+              <label class="choice-label"><input type="radio" name="vandalismOccurred" value="No" checked /> No</label>
+              <label class="choice-label"><input type="radio" name="vandalismOccurred" value="Yes" /> Yes</label>
+            </div>
+          </div>
+
+          <!-- Conditional on Vandalism = Yes -->
+          <div id="vandalismDetailsContainer" class="conditional-field">
+            <div class="form-group">
+              <label class="label-required" for="vandalizedAssets">Vandalized Assets & Exact Site Details</label>
+              <textarea id="vandalizedAssets" name="vandalizedAssets" placeholder="Itemize equipment stolen/damaged (e.g., 80m copper riser cable, transformer oil) and location..."></textarea>
+            </div>
+            <div class="grid-2" style="margin-top: 10px;">
+              <div class="form-group">
+                <label class="label-required" for="vandalismLossValue">Estimated Value of Loss (₦ Naira)</label>
+                <input type="number" id="vandalismLossValue" name="vandalismLossValue" min="0" placeholder="e.g. 1500000" />
+              </div>
+              <div class="form-group">
+                <label class="label-required" for="suspectStatus">Suspect Apprehensions</label>
+                <select id="suspectStatus" name="suspectStatus">
+                  <option value="Escaped">No - Culprits escaped</option>
+                  <option value="Handed to Police">Yes - Handed to Police/NSCDC</option>
+                  <option value="Community Custody">Yes - Apprehended by vigilante/community</option>
+                </select>
+              </div>
+            </div>
+            <div id="policeDivisionContainer" class="conditional-field" style="margin-top: 10px;">
+              <label class="label-required" for="policeDivision">Law Enforcement Division Handling Case</label>
+              <input type="text" id="policeDivision" name="policeDivision" placeholder="e.g., State CID Owerri, DPO Orlu Division" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="legalNotices">Legal Threat Notices / Solicitor Letters / Summons</label>
+            <textarea id="legalNotices" name="legalNotices" placeholder="Summarize any legal demand letters, boundary disputes, or court processes served..."></textarea>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-safety">&larr; Previous</button>
+            <button type="button" class="btn btn-primary next-tab-btn" data-next="tab-regulatory">Next: Regulatory &rarr;</button>
+          </div>
+        </div>
+
+        <!-- ==================== TAB 8: REGULATORY ==================== -->
+        <div class="tab-pane" id="tab-regulatory">
+          <h2 class="tab-pane-title">8. Regulatory & Stakeholder Relations Feed</h2>
+          <p class="tab-pane-desc">Track traditional ruler dialogues, Town Union interactions, NERC Forum office petitions, and protest alerts.</p>
+
+          <div class="form-group">
+            <label for="stakeholderMeetings">Community Engagements Conducted</label>
+            <textarea id="stakeholderMeetings" name="stakeholderMeetings" placeholder="Details of meetings held with Eze-in-Council, Town Union Presidents-General, or Youth Executives..."></textarea>
+          </div>
+
+          <!-- Conditional on Community Engagements filled -->
+          <div id="commitmentsContainer" class="conditional-field">
+            <label class="label-required" for="commitmentsMade">Specific Commitments Given to Communities</label>
+            <textarea id="commitmentsMade" name="commitmentsMade" placeholder="Document any operational promises made (e.g., energize transformer by 15th)..."></textarea>
+          </div>
+
+          <div class="grid-2" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="label-required" for="nercPetitions">Active Petitions at Owerri NERC Forum Office</label>
+              <input type="number" id="nercPetitions" name="nercPetitions" min="0" value="0" required />
+            </div>
+            <div class="form-group">
+              <label for="plannedProtestIntel">Intelligence on Impending Demonstrations / Barricades</label>
+              <input type="text" id="plannedProtestIntel" name="plannedProtestIntel" placeholder="Any threat of youth march or district lockout..." />
+            </div>
+          </div>
+
+          <div class="tab-navigation-footer">
+            <button type="button" class="btn btn-secondary prev-tab-btn" data-prev="tab-legal">&larr; Previous</button>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('closureCard').scrollIntoView({behavior: 'smooth'})">Proceed to Sign-Off &darr;</button>
+          </div>
+        </div>
+
+      </div><!-- End tabs-wrapper -->
+
+      <!-- ==================== CLOSURE & SIGN-OFF ==================== -->
+      <div class="executive-closure-card" id="closureCard">
+        <h3 class="closure-title">Early Warning Reputational Risk & District Sign-Off</h3>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="label-required" for="earlyWarningLocation">High-Risk Location / Feeder</label>
+            <input type="text" id="earlyWarningLocation" name="earlyWarningLocation" placeholder="e.g., Aladinma 11kV Feeder corridor" required />
+          </div>
+          <div class="form-group">
+            <label class="label-required" for="earlyWarningGrievance">Underlying Driver / Grievance</label>
+            <input type="text" id="earlyWarningGrievance" name="earlyWarningGrievance" placeholder="e.g., 3-week outage following burnt transformer" required />
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 14px;">
+          <div class="form-group">
+            <label class="label-required" for="riskSeverity">Escalation Severity Level</label>
+            <select id="riskSeverity" name="riskSeverity" required>
+              <option value="Medium">Medium (Impending media call-outs / customer petitions)</option>
+              <option value="High">High (Picketing / Office shutdown threats)</option>
+              <option value="Critical">Critical (Threats to staff safety / Infrastructure sabotage)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="label-required" for="districtMitigation">Immediate District Action Proposed</label>
+            <input type="text" id="districtMitigation" name="districtMitigation" placeholder="e.g., Deploy relief transformer & engage youth leaders" required />
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 18px;">
+          <label class="label-required">Corporate Communications Support Requisitions</label>
+          <div class="checkbox-group">
+            <label class="choice-label"><input type="checkbox" name="commsSupport" value="Radio Advisory" /> Localized Radio Broadcast / Press Notice (Maintenance or Outage)</label>
+            <label class="choice-label"><input type="checkbox" name="commsSupport" value="Anti-Vandalism PR" /> Anti-Vandalism Deterrence Media Advisory (Arrest announcements)</label>
+            <label class="choice-label"><input type="checkbox" name="commsSupport" value="Bulk SMS Broadcast" /> Direct Bulk SMS Advisory to Feeder Customer Database</label>
+            <label class="choice-label"><input type="checkbox" name="commsSupport" value="Educational Infographics" /> Educational Sensitization Assets (Billing methodology / Vandalism)</label>
+            <label class="choice-label"><input type="checkbox" name="commsSupport" value="Comms Physical Presence" /> Corporate Communications Physical Representation at Community Dialogue</label>
+            <label class="choice-label"><input type="checkbox" name="commsSupport" value="None" id="commsSupportNone" /> No Communications Intervention Required</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 18px;">
+          <label class="choice-label" style="font-weight: 600;">
+            <input type="checkbox" id="dbmConfirmation" name="dbmConfirmation" required />
+            <span>I verify that the information in all 8 departmental tabs has been authenticated by the District Business Manager (DBM) and accurately reflects field realities across this district.</span>
+          </label>
+        </div>
+
+        <div class="grid-2" style="margin-top: 14px;">
+          <div class="form-group">
+            <label class="label-required" for="dbmPhone">DBM Official Contact Phone Number</label>
+            <input type="text" id="dbmPhone" name="dbmPhone" placeholder="0803XXXXXXX (11 digits)" maxlength="11" required />
+          </div>
+          <div class="form-group">
+            <label for="submissionTimestamp">System Timestamp</label>
+            <input type="text" id="submissionTimestamp" name="submissionTimestamp" readonly />
+          </div>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem; justify-content: center;">
+            <span>Transmit Weekly Field Intelligence Feed to Corporate Communications & MD/CEO</span>
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- FOOTER SECTION -->
+  <footer class="portal-footer">
+    <div class="footer-content">
+      <div>
+        <strong>Transpower Electricity Distribution Limited (TEDL)</strong><br />
+        Corporate Communications & Public Relations Strategy • Enterprise Operational Data Bank<br />
+        <span style="color: var(--slate-300);">Operating under the Nigerian Electricity Regulatory Commission (NERC) and Imo State Electricity Regulatory Commission (ISERC) framework across Imo State.</span>
+      </div>
+      <div class="footer-links">
+        <a href="#dirisMasterForm">Back to Top</a>
+        <a href="javascript:alert('For assistance, contact Corporate Communications Directorate: comms@transpower.com.ng')">Helpdesk</a>
+        <a href="javascript:alert('Confidential: Authorized for TEDL Internal Management Use Only.')">Security & Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SUBMISSION CONFIRMATION MODAL -->
+  <div id="submissionModal" class="modal-overlay">
+    <div class="modal-box">
+      <h3>Weekly District Feed Successfully Logged</h3>
+      <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 12px;">Transpower Electricity Distribution Limited — Imo Operations</p>
+      
+      <div id="modalAlertBox" style="display:none; padding:10px 14px; border-radius:6px; font-size:0.82rem; font-weight:600; margin-bottom:12px;"></div>
+      
+      <p style="font-size: 0.9rem;">The weekly intelligence feed across all 8 operational departments has been compiled, stamped, and archived into the enterprise data bank.</p>
+      
+      <div style="margin: 14px 0; font-size: 0.85rem;">
+        <strong>Reference Tracking ID:</strong> <span id="modalRefId" style="color: var(--tedl-accent); font-weight:700;"></span><br>
+        <strong>District:</strong> <span id="modalDistrictName"></span><br>
+        <strong>Status Indicator:</strong> <span id="modalStatusBadge"></span>
+      </div>
+
+      <pre class="payload-pre" id="payloadDisplay"></pre>
+
+      <button type="button" class="btn btn-primary" id="modalCloseBtn" style="width: 100%; margin-top: 18px; justify-content: center;">
+        Acknowledge & Return to Portal
+      </button>
+    </div>
+  </div>
+
+  <!-- EMBEDDED JAVASCRIPT LOGIC -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("dirisMasterForm");
+      const clockDisplay = document.getElementById("clockDisplay");
+      const emergencyBanner = document.getElementById("emergencyBanner");
+      const timestampInput = document.getElementById("submissionTimestamp");
+
+      // Live WAT Clock
+      function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("en-GB", { timeZone: "Africa/Lagos" });
+        clockDisplay.textContent = timeString + " WAT";
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      const now = new Date();
+      timestampInput.value = now.toLocaleString("en-GB", { timeZone: "Africa/Lagos" }) + " (WAT)";
+
+      // Tab Switching Logic
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabPanes = document.querySelectorAll(".tab-pane");
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetTab = btn.getAttribute("data-tab");
+          tabBtns.forEach(b => b.classList.remove("active"));
+          tabPanes.forEach(p => p.classList.remove("active"));
+
+          btn.classList.add("active");
+          document.getElementById(targetTab).classList.add("active");
+        });
+      });
+
+      // Stepper Next / Prev Buttons
+      document.querySelectorAll(".next-tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const nextTabId = btn.getAttribute("data-next");
+          const targetBtn = document.querySelector(`.tab-btn[data-tab="${nextTabId}"]`);
+          if (targetBtn) targetBtn.click();
+          window.scrollTo({ top: 180, behavior: "smooth" });
+        });
+      });
+
+      document.querySelectorAll(".prev-tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const prevTabId = btn.getAttribute("data-prev");
+          const targetBtn = document.querySelector(`.tab-btn[data-tab="${prevTabId}"]`);
+          if (targetBtn) targetBtn.click();
+          window.scrollTo({ top: 180, behavior: "smooth" });
+        });
+      });
+
+      // Emergency State Evaluator
+      function checkEmergencyState() {
+        const rag = form.querySelector('input[name="ragStatus"]:checked')?.value;
+        const accident = form.querySelector('input[name="accidentOccurred"]:checked')?.value;
+        const risk = document.getElementById("riskSeverity").value;
+
+        if (rag === "RED" || accident === "Yes" || risk === "Critical") {
+          emergencyBanner.style.display = "block";
+        } else {
+          emergencyBanner.style.display = "none";
+        }
+      }
+
+      form.querySelectorAll('input[name="ragStatus"]').forEach(el => el.addEventListener("change", checkEmergencyState));
+      form.querySelectorAll('input[name="accidentOccurred"]').forEach(el => el.addEventListener("change", checkEmergencyState));
+      document.getElementById("riskSeverity").addEventListener("change", checkEmergencyState);
+
+      // CONDITIONAL LOGIC HANDLERS
+      // 1. Burnt Transformers > 0
+      const burntDTs = document.getElementById("burntDTs");
+      const failedDTContainer = document.getElementById("failedDTContainer");
+      const failedDTDetails = document.getElementById("failedDTDetails");
+      burntDTs.addEventListener("input", () => {
+        const val = parseInt(burntDTs.value, 10) || 0;
+        if (val > 0) {
+          failedDTContainer.style.display = "block";
+          failedDTDetails.required = true;
+        } else {
+          failedDTContainer.style.display = "none";
+          failedDTDetails.required = false;
+        }
+      });
+
+      // 2. Disconnection Resistance
+      const resistanceContainer = document.getElementById("resistanceContainer");
+      const resistanceDetails = document.getElementById("resistanceDetails");
+      form.querySelectorAll('input[name="disconnectionResistance"]').forEach(el => {
+        el.addEventListener("change", (e) => {
+          if (e.target.value === "Yes") {
+            resistanceContainer.style.display = "block";
+            resistanceDetails.required = true;
+          } else {
+            resistanceContainer.style.display = "none";
+            resistanceDetails.required = false;
+          }
+        });
+      });
+
+      // 3. Customer Service Pending > 0
+      const complaintsPending72h = document.getElementById("complaintsPending72h");
+      const backlogReasonContainer = document.getElementById("backlogReasonContainer");
+      const backlogReason = document.getElementById("backlogReason");
+      complaintsPending72h.addEventListener("input", () => {
+        const val = parseInt(complaintsPending72h.value, 10) || 0;
+        if (val > 0) {
+          backlogReasonContainer.style.display = "block";
+          backlogReason.required = true;
+        } else {
+          backlogReasonContainer.style.display = "none";
+          backlogReason.required = false;
+        }
+      });
+
+      // 4. Exactly 3 Complaint Drivers
+      const driverBoxes = form.querySelectorAll('input[name="complaintDriver"]');
+      const driverCounter = document.getElementById("complaintDriverCount");
+      driverBoxes.forEach(box => {
+        box.addEventListener("change", () => {
+          const selected = form.querySelectorAll('input[name="complaintDriver"]:checked');
+          driverCounter.textContent = `Selected: ${selected.length} of 3`;
+          if (selected.length > 3) {
+            box.checked = false;
+            driverCounter.textContent = `Selected: 3 of 3 (Maximum reached)`;
+          }
+        });
+      });
+
+      // 5. Staff Harassment / Assault
+      const assaultDetailsContainer = document.getElementById("assaultDetailsContainer");
+      const assaultDetails = document.getElementById("assaultDetails");
+      form.querySelectorAll('input[name="staffAssault"]').forEach(el => {
+        el.addEventListener("change", (e) => {
+          if (e.target.value === "Yes") {
+            assaultDetailsContainer.style.display = "block";
+            assaultDetails.required = true;
+          } else {
+            assaultDetailsContainer.style.display = "none";
+            assaultDetails.required = false;
+          }
+        });
+      });
+
+      // 6. Contested Bills > 10
+      const contestedBills = document.getElementById("contestedBills");
+      const billingAgitationContainer = document.getElementById("billingAgitationContainer");
+      const billingAgitationAreas = document.getElementById("billingAgitationAreas");
+      contestedBills.addEventListener("input", () => {
+        const val = parseInt(contestedBills.value, 10) || 0;
+        if (val > 10) {
+          billingAgitationContainer.style.display = "block";
+          billingAgitationAreas.required = true;
+        } else {
+          billingAgitationContainer.style.display = "none";
+          billingAgitationAreas.required = false;
+        }
+      });
+
+      // 7. Capping Breach
+      const cappingDetailsContainer = document.getElementById("cappingDetailsContainer");
+      const cappingDetails = document.getElementById("cappingDetails");
+      form.querySelectorAll('input[name="cappingBreach"]').forEach(el => {
+        el.addEventListener("change", (e) => {
+          if (e.target.value === "Yes") {
+            cappingDetailsContainer.style.display = "block";
+            cappingDetails.required = true;
+          } else {
+            cappingDetailsContainer.style.display = "none";
+            cappingDetails.required = false;
+          }
+        });
+      });
+
+      // 8. Meter Friction None Exclusive
+      const meterFrictionNone = document.getElementById("meterFrictionNone");
+      const meterBoxes = form.querySelectorAll('input[name="meterFriction"]');
+      meterFrictionNone.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          meterBoxes.forEach(b => {
+            if (b !== meterFrictionNone) {
+              b.checked = false;
+              b.disabled = true;
+            }
+          });
+        } else {
+          meterBoxes.forEach(b => b.disabled = false);
+        }
+      });
+
+      // 9. HSE Hazards Exclusive None & Hotspots
+      const hseHazardNone = document.getElementById("hseHazardNone");
+      const hseBoxes = form.querySelectorAll('input[name="hseHazard"]');
+      const hazardHotspotContainer = document.getElementById("hazardHotspotContainer");
+      const hazardHotspots = document.getElementById("hazardHotspots");
+
+      hseHazardNone.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          hseBoxes.forEach(b => {
+            if (b !== hseHazardNone) {
+              b.checked = false;
+              b.disabled = true;
+            }
+          });
+          hazardHotspotContainer.style.display = "none";
+          hazardHotspots.required = false;
+        } else {
+          hseBoxes.forEach(b => b.disabled = false);
+        }
+      });
+
+      hseBoxes.forEach(box => {
+        if (box !== hseHazardNone) {
+          box.addEventListener("change", () => {
+            const anyActive = Array.from(hseBoxes).some(b => b !== hseHazardNone && b.checked);
+            if (anyActive) {
+              hseHazardNone.checked = false;
+              hazardHotspotContainer.style.display = "block";
+              hazardHotspots.required = true;
+            } else {
+              hazardHotspotContainer.style.display = "none";
+              hazardHotspots.required = false;
+            }
+          });
+        }
+      });
+
+      // 10. Accident Details
+      const accidentDetailsContainer = document.getElementById("accidentDetailsContainer");
+      const accidentDetails = document.getElementById("accidentDetails");
+      form.querySelectorAll('input[name="accidentOccurred"]').forEach(el => {
+        el.addEventListener("change", (e) => {
+          if (e.target.value === "Yes") {
+            accidentDetailsContainer.style.display = "block";
+            accidentDetails.required = true;
+          } else {
+            accidentDetailsContainer.style.display = "none";
+            accidentDetails.required = false;
+          }
+        });
+      });
+
+      // 11. Vandalism & Police Division
+      const vandalismDetailsContainer = document.getElementById("vandalismDetailsContainer");
+      const vandalizedAssets = document.getElementById("vandalizedAssets");
+      const vandalismLossValue = document.getElementById("vandalismLossValue");
+      const suspectStatus = document.getElementById("suspectStatus");
+      const policeDivisionContainer = document.getElementById("policeDivisionContainer");
+      const policeDivision = document.getElementById("policeDivision");
+
+      form.querySelectorAll('input[name="vandalismOccurred"]').forEach(el => {
+        el.addEventListener("change", (e) => {
+          if (e.target.value === "Yes") {
+            vandalismDetailsContainer.style.display = "block";
+            vandalizedAssets.required = true;
+            vandalismLossValue.required = true;
+          } else {
+            vandalismDetailsContainer.style.display = "none";
+            vandalizedAssets.required = false;
+            vandalismLossValue.required = false;
+          }
+        });
+      });
+
+      suspectStatus.addEventListener("change", () => {
+        if (suspectStatus.value === "Handed to Police") {
+          policeDivisionContainer.style.display = "block";
+          policeDivision.required = true;
+        } else {
+          policeDivisionContainer.style.display = "none";
+          policeDivision.required = false;
+        }
+      });
+
+      // 12. Stakeholder Engagements Commitments
+      const stakeholderMeetings = document.getElementById("stakeholderMeetings");
+      const commitmentsContainer = document.getElementById("commitmentsContainer");
+      const commitmentsMade = document.getElementById("commitmentsMade");
+      stakeholderMeetings.addEventListener("input", () => {
+        if (stakeholderMeetings.value.trim().length > 5) {
+          commitmentsContainer.style.display = "block";
+          commitmentsMade.required = true;
+        } else {
+          commitmentsContainer.style.display = "none";
+          commitmentsMade.required = false;
+        }
+      });
+
+      // 13. Comms None Exclusive
+      const commsSupportNone = document.getElementById("commsSupportNone");
+      const commsBoxes = form.querySelectorAll('input[name="commsSupport"]');
+      commsSupportNone.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          commsBoxes.forEach(b => {
+            if (b !== commsSupportNone) {
+              b.checked = false;
+              b.disabled = true;
+            }
+          });
+        } else {
+          commsBoxes.forEach(b => b.disabled = false);
+        }
+      });
+
+      // FORM SUBMISSION VALIDATION
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Check HTML5 validity
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        // Supply hours range check (0 - 24)
+        const supplyBands = ["bandA", "bandB", "bandC", "bandD"];
+        for (const band of supplyBands) {
+          const val = parseFloat(document.getElementById(band).value);
+          if (isNaN(val) || val < 0 || val > 24) {
+            alert(`Supply duration for ${band.toUpperCase()} must be between 0.0 and 24.0 hours.`);
+            const techTabBtn = document.querySelector('.tab-btn[data-tab="tab-technical"]');
+            if (techTabBtn) techTabBtn.click();
+            document.getElementById(band).focus();
+            return;
+          }
+        }
+
+        // Complaint Drivers check (exactly 3)
+        const selectedDrivers = form.querySelectorAll('input[name="complaintDriver"]:checked');
+        if (selectedDrivers.length !== 3) {
+          alert(`Please select exactly 3 primary recurring complaint drivers in Dept 3 (Customer Service). Currently selected: ${selectedDrivers.length}.`);
+          const custTabBtn = document.querySelector('.tab-btn[data-tab="tab-customer"]');
+          if (custTabBtn) custTabBtn.click();
+          return;
+        }
+
+        // Complaints Math: Resolved <= Logged
+        const logged = parseInt(document.getElementById("complaintsLogged").value, 10) || 0;
+        const resolved = parseInt(document.getElementById("complaintsResolved").value, 10) || 0;
+        if (resolved > logged) {
+          alert("Resolved complaints cannot exceed total logged complaints in Dept 3 (Customer Service).");
+          const custTabBtn = document.querySelector('.tab-btn[data-tab="tab-customer"]');
+          if (custTabBtn) custTabBtn.click();
+          document.getElementById("complaintsResolved").focus();
+          return;
+        }
+
+        // HSE Hazard check (at least 1 selection)
+        const selectedHSE = form.querySelectorAll('input[name="hseHazard"]:checked');
+        if (selectedHSE.length === 0) {
+          alert("Please select at least one public hazard option or choose 'None observed' in Dept 6 (Safety).");
+          const safetyTabBtn = document.querySelector('.tab-btn[data-tab="tab-safety"]');
+          if (safetyTabBtn) safetyTabBtn.click();
+          return;
+        }
+
+        // Comms Support check (at least 1 selection)
+        const selectedComms = form.querySelectorAll('input[name="commsSupport"]:checked');
+        if (selectedComms.length === 0) {
+          alert("Please select at least one communications intervention or tick 'None Required'.");
+          document.getElementById("closureCard").scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+
+        // Phone validation (11 digits, Nigeria format)
+        const phone = document.getElementById("dbmPhone").value.trim();
+        const phoneRegex = /^0[789][01]\d{8}$/;
+        if (!phoneRegex.test(phone)) {
+          alert("Please enter a valid 11-digit Nigerian mobile telephone number (e.g., 08031234567).");
+          document.getElementById("dbmPhone").focus();
+          return;
+        }
+
+        // Compile Form Payload
+        const formData = new FormData(form);
+        const submissionPayload = {};
+        formData.forEach((value, key) => {
+          if (submissionPayload[key]) {
+            if (!Array.isArray(submissionPayload[key])) {
+              submissionPayload[key] = [submissionPayload[key]];
+            }
+            submissionPayload[key].push(value);
+          } else {
+            submissionPayload[key] = value;
+          }
+        });
+
+        // Generate Executive Ticket Code & attach to payload
+        const distCode = (submissionPayload.districtName || "DIS").substring(0, 3).toUpperCase();
+        const randCode = Math.floor(1000 + Math.random() * 9000);
+        const refId = `TEDL-DIRIS-${distCode}-${randCode}`;
+        submissionPayload.refId = refId;
+
+        // UI Feedback: Disable button during transmission
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span>⏳ Transmitting to Enterprise Sheet...</span>`;
+
+        // REPLACE WITH YOUR ACTUAL DEPLOYED WEB APP URL
+        const SCRIPT_URL = "https://script.google.com/a/macros/enugudisco.com/s/AKfycbx_o71rsFmA9-0LHOCiMSJHKXiDAjwBbWe6mgvo5x6E0CRRGv_L8lIBYNpt4D5IFtYL-A/exec";
+
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" }, // Avoids CORS preflight flight checks
+            body: JSON.stringify(submissionPayload)
+          });
+
+          const result = await response.json();
+          if (result.status !== "success") {
+            throw new Error(result.message || "Spreadsheet write failed.");
+          }
+
+          // Populate Modal Details on successful transmission
+          document.getElementById("modalRefId").textContent = refId;
+          document.getElementById("modalDistrictName").textContent = submissionPayload.districtName;
+          document.getElementById("modalStatusBadge").textContent = submissionPayload.ragStatus;
+          document.getElementById("payloadDisplay").textContent = JSON.stringify(submissionPayload, null, 2);
+
+          // Alert styling
+          const modalAlertBox = document.getElementById("modalAlertBox");
+          if (submissionPayload.ragStatus === "RED" || submissionPayload.accidentOccurred === "Yes" || submissionPayload.riskSeverity === "Critical") {
+            modalAlertBox.style.display = "block";
+            modalAlertBox.style.background = "var(--danger-bg)";
+            modalAlertBox.style.color = "var(--danger)";
+            modalAlertBox.style.border = "1px solid var(--danger)";
+            modalAlertBox.innerHTML = "🚨 <strong>HIGH-PRIORITY DIRECTIVE:</strong> Critical risk flagged and logged to the central database.";
+          } else {
+            modalAlertBox.style.display = "none";
+          }
+
+          document.getElementById("submissionModal").style.display = "flex";
+
+        } catch (error) {
+          alert(`Transmission Error: ${error.message}\nPlease check your network connection and try again.`);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
+
+        // Close modal and reset the form after successful transmission
+        document.getElementById("modalCloseBtn").addEventListener("click", () => {
+          document.getElementById("submissionModal").style.display = "none";
+          form.reset();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          checkEmergencyState();
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
