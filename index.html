@@ -1543,7 +1543,7 @@
         // Generate Executive Ticket Code & attach to payload
         const distCode = (submissionPayload.districtName || "DIS").substring(0, 3).toUpperCase();
         const randCode = Math.floor(1000 + Math.random() * 9000);
-        const refId = `TEDL-DIRIS-${distCode}-${randCode}`;
+        const refId = `TEDL-DIPRIS-${distCode}-${randCode}`;
         submissionPayload.refId = refId;
 
         // UI Feedback: Disable button during transmission
